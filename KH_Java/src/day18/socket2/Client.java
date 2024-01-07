@@ -1,4 +1,4 @@
-package day18.socket1;
+package day18.socket2;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

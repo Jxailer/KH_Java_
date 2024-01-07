@@ -1,8 +1,8 @@
-package day18.socket1;
+package day18.socket2;
 
 import java.net.Socket;
 
-public class ClientEx1 {
+public class ClientEx2 {
 
 	public static void main(String[] args) {
 		int port = 5001;
