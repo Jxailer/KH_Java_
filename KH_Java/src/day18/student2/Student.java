@@ -35,7 +35,7 @@ public class Student implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "[" + grade + "학년 " + classNum + "반 " + num + "번 " + name + "]";
+		return "[" + grade + "grade " + classNum + "class " + " No. "+num + name + "]";
 	}
 	
 	

@@ -9,7 +9,7 @@ public class ServerEx2 {
 		int port = 5001;
 		
 		try (ServerSocket serverSocket = new ServerSocket(port)){
-			while(true) { // 스트림을 계속 만들어서 여러 사용자로부터 한 번에 값을 전송받음.
+			while(true) { // by keep generating stream, receives many values from multiple clients simultaneously.
 				Socket socket = serverSocket.accept();
 				Client client = new Client(socket);
 				client.send();

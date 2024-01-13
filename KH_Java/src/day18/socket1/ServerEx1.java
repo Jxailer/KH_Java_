@@ -14,7 +14,7 @@ public class ServerEx1 {
 			client.send();
 			client.receive();
 		} catch (Exception e) {
-			System.out.println("서버 소켓 생성에서 예외가 발생하여 종료합니다.");
+			System.out.println("program ends due to exception caused while generating server socket");
 		}
 
 	}

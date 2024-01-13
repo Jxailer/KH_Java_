@@ -13,7 +13,7 @@ public class ClientEx2 {
 			client.send();
 			client.receive();
 		} catch (Exception e) {
-			System.out.println("예외가 발생하여 종료합니다.");
+			System.out.println("fuction suddenly ends due to exception:");
 		}
 
 	}

@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor // 기본 생성자 만들기
+@NoArgsConstructor // generates default constructor
 public class StudentManager {
 
 
@@ -20,13 +20,13 @@ public class StudentManager {
 	}
 
 	public boolean updateStudent(Student std) {
-		// 등록된 학생인지 확인함
+		// checks whether the student is already inserted.
 		int index = list.indexOf(std);
-		// 등록된 학생이 아니면 flase를 리턴함
+		// if not, returns false
 		if(index<0) {
 			return false;
 		}
-		// 등록된 학생이라면 이름을 수정함.
+		// if they are, update their name.
 		list.get(index).setName(std.getName());
 		return true;
 	}
@@ -37,11 +37,11 @@ public class StudentManager {
 	}
 
 	public boolean insertStudent(Student std) {
-		// 중복 체크
+		// check duplicate
 		if(list.contains(std)) {
 			return false;
 		}
-		// 아니면 추가
+		// if not, add
 		list.add(std);
 		return true;
 	}

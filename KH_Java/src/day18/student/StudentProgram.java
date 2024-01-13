@@ -23,9 +23,9 @@ public class StudentProgram implements Program {
 	public void run() {
 		String ip = "192.168.30.199";
 		int port = 5001;
-		// 서버와 연결
+		// connect server
 		connectServer(ip, port);
-		// 서버에서 학생 정보를 불러옴
+		// load student info from server
 		load();
 		int menu = 0;
 		do {
@@ -34,15 +34,15 @@ public class StudentProgram implements Program {
 				menu = scan.nextInt();
 				runMenu(menu);
 			}catch(InputMismatchException e) {
-				System.out.println("잘못된 메뉴를 선택했습니다.");
-				scan.nextLine(); // 입려 ㄱ버퍼에 잘못 입력된 값을 제거 또는 공백을 제거함.
+				System.out.println("wrong menu option.");
+				scan.nextLine(); // removes value or space mis-entered in input buffer 
 			}
 		}while(menu != EXIT);
 	}
 
 	private void load() {
 		if(socket == null) {
-			System.out.println("[서버에 연결되지 않아 불러올 수 없습니다.]");
+			System.out.println("[cannot load data : server is not connected.]");
 		}
 		try {
 			oos.writeUTF("LOAD");
@@ -50,9 +50,9 @@ public class StudentProgram implements Program {
 			// 읽어오기
 			List<Student> list = (List<Student>)ois.readObject();
 			sm = new StudentManager(list);
-			System.out.println("[불러오기 성공]");
+			System.out.println("[loaded successfully]");
 		}catch(IOException | ClassNotFoundException e) {
-			System.out.println("[불러오기 중 예외가 발생했습니다]");
+			System.out.println("[exception occurred while loading file]");
 		}
 		
 	}
@@ -64,22 +64,22 @@ public class StudentProgram implements Program {
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
 			
-			System.out.println("[서버 연결 성공]");
+			System.out.println("[server connected successfully]");
 		}catch(IOException e) {
-			System.out.println("[서버 연결 실패]");
+			System.out.println("[server connection failed]");
 		}
 		
 	}
 
 	@Override
 	public void printMenu() {
-		System.out.println("------메뉴------");
-		System.out.println("1. 학생 추가");
-		System.out.println("2. 학생 조회(전체)");
-		System.out.println("3. 학생 수정(이름)");
-		System.out.println("4. 종료");
+		System.out.println("------menu------");
+		System.out.println("1. add student");
+		System.out.println("2. student list(whole)");
+		System.out.println("3. student revise(name)");
+		System.out.println("4. exit");
 		System.out.println("---------------");
-		System.out.print("메뉴 선택 : ");
+		System.out.print("menu select : ");
 
 	}
 
@@ -97,7 +97,7 @@ public class StudentProgram implements Program {
 			break;
 		case 4:
 			exit();
-			System.out.println("프로그램을 종료합니다.");
+			System.out.println("shutting down program.");
 			break;
 		default:
 			throw new InputMismatchException();
@@ -118,24 +118,24 @@ public class StudentProgram implements Program {
 		
 		
 	private void updateStudent() {
-		// 학생 정보 입력
-		System.out.print("학년 : ");
+		// enter student info
+		System.out.print("grade : ");
 		int grade = scan.nextInt();
-		System.out.print("반  : ");
+		System.out.print("class  : ");
 		int classNum = scan.nextInt();
-		System.out.print("번호 : ");
+		System.out.print("student number : ");
 		int num = scan.nextInt();
-		System.out.print("이름 : ");
+		System.out.print("name : ");
 		scan.nextLine();
 		String name = scan.nextLine();
 		
-		// 학생정보 수정
+		// revise student info
 		Student std = new Student(grade, classNum, num, name);
 		if(sm.updateStudent(std)) {
-			System.out.println("이름을 수정했습니다.");
+			System.out.println("name revised.");
 			sendUpdateStudent(std);
 		}else {
-			System.out.println("등록되지 않은 학생입니다.");
+			System.out.println("not enrolled student.");
 		}
 		
 	}
@@ -157,30 +157,31 @@ public class StudentProgram implements Program {
 	}
 
 	private void insertStudent() {
-		// 추가할 학생 정보를 입력
-		System.out.print("학년 : ");
+		// enter student info
+		System.out.print("grade : ");
 		int grade = scan.nextInt();
-		System.out.print("반  : ");
+		System.out.print("class  : ");
 		int classNum = scan.nextInt();
-		System.out.print("번호 : ");
+		System.out.print("student number : ");
 		int num = scan.nextInt();
-		System.out.print("이름 : ");
+		System.out.print("name : ");
 		scan.nextLine();
 		String name = scan.nextLine();
-		//매니저에게 입력받은 학생 정보를 추가
+		
+		// add student info to manager
 		Student std = new Student(grade, classNum, num, name);
 		if(sm.insertStudent(std)) {
-			System.out.println("학생을 추가했습니다.");
+			System.out.println("student added.");
 			sendStudent(std);
 		}else {
-			System.out.println("이미 등록된 학생입니다.");
+			System.out.println("already enrolled student.");
 		}
 		
 	}
 
 	private void sendStudent(Student std) {
 		if(socket == null) {
-			System.out.println("[서버에 연결되지 않아 서버에 학생 정보를 추가할 수 없습니다.]");
+			System.out.println("[cannot add student info : server not connected.]");
 		}
 		try {
 			oos.writeUTF("INSERT");;
@@ -188,7 +189,7 @@ public class StudentProgram implements Program {
 			oos.writeObject(std);
 			oos.flush();
 		}catch(IOException e) {
-			System.out.println("[서버에 학생 추가 중 예외가 발생했습니다.]");
+			System.out.println("[exception occurred while adding student info on server.]");
 		}
 		
 	}

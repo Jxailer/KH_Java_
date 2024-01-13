@@ -29,7 +29,7 @@ public class ServerMain {
 				//save();
 			}
 		} catch (IOException e) {
-			System.out.println("[예외가 발생하여 서버를 종료합니다.]");
+			System.out.println("[server is shut down due to exception.]");
 		}
 		
 	}
@@ -38,7 +38,7 @@ public class ServerMain {
 		try {
 			ObjectInputStream fois = new ObjectInputStream(new FileInputStream(fileName));
 			List<Student> list = (List<Student>)fois.readObject();
-			sm = new StudentManager(list);
+			sm = new StudentManager(list); // create student manager object using list
 		} catch (IOException | ClassNotFoundException e) {
 			sm = new StudentManager();
 			e.printStackTrace();
@@ -52,20 +52,20 @@ class ServerThread extends Thread{
 	@NonNull
 	private Socket socket;
 	@NonNull
-	private StudentManager sm; // 서버에서 공유하는 학생 리스트
+	private StudentManager sm; // using student manager instead of student list
 	
-	private ObjectInputStream ois; // 클라이언트에서 읽어올 때 사용
-	private ObjectOutputStream oos; // 클라이언트에 보낼 때 사용
+	private ObjectInputStream ois; // used while receiving messages from client 
+	private ObjectOutputStream oos; // used while sending messages to client 
 	
 	public void run() {
 		try {
 			ois = new ObjectInputStream(socket.getInputStream());
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			while(true) {
-				// 클라이언트가 요청한 기능을 실행함
-				// 클라이언트가 요청한 기능을 입력함.
+				// start function that client demands
+				// submits function that client demands
 				String menu = ois.readUTF();
-				// 요청한 기능을 실행함
+				// starts the function
 				switch(menu) {
 				case "LOAD":
 						load();
@@ -74,7 +74,6 @@ class ServerThread extends Thread{
 						insert();
 						break;
 				case "SAVE":
-						//저장기능 실행
 						save();
 						return;
 				case "UPDATE":
@@ -92,7 +91,7 @@ class ServerThread extends Thread{
 		Student std;
 		try {
 			std = (Student)ois.readObject();
-			sm.updateStudent(std);
+			sm.updateStudent(std); 
 		}catch (Exception e) {
 			e.printStackTrace();
 		

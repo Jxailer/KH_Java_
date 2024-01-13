@@ -11,8 +11,10 @@ public class MapEx1 {
 		Map<String, String> map = new HashMap<String, String>();
 		
 		/* put(k,v)
-		 * - k,v 값을 이용해서 추가
-		 * - k가 중복되면 v만 수정됨 (k중복 x) 이전 v값을 반환함
+		 * - add values by using k and v
+		 * - if k is duplicated, only value of v will be renewed 
+		 *   and returns previous v value
+		 * (k cannot be duplicated.)
 		 * */
 		map.put("abc", "def");
 		String prev = map.put("abc", "ddf");
@@ -20,17 +22,17 @@ public class MapEx1 {
 		System.out.println(prev);
 		System.out.println();
 		
-		/*get(k): k와 일치하는 v를 리턴함*/
+		/*get(k): returns v value that matches with k*/
 		String str = map.get("abc");
 		System.out.println(str);
 		System.out.println();
 		
-		/*containsKey(k): k와 일치하는 key가 있는 지 알려줌
-		 * boolean 값 반환*/
+		/*containsKey(k): notify whether there's key matches with k
+		 *returns boolean */
 		System.out.println(map.containsKey("abc"));
 		System.out.println();
 		
-		/* remove(k): k와 일치하는 요소를 삭제한 후 value를 반환함
+		/* remove(k): removes object that mathes with k and returns its value 
 		 * */
 		str = map.remove("abc");
 		System.out.println(str);
